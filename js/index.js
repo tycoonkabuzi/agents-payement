@@ -4,6 +4,8 @@
 //Add a bonus immediately: if an employee worked more than 160 hours,
 //they receive double the hourly rate for every additional hour.
 
+//Highlight in red the employees who worked fewer than 100 hours.
+
 const workedHours = document.querySelectorAll(".czas");
 const rate = document.querySelectorAll(".stawka");
 const calculate = document.getElementById("oblicz");
@@ -15,6 +17,19 @@ function getValuesOfInputs(theInputs) {
     anInputNumberArray.push(Number(anInput.value));
   }
   return anInputNumberArray;
+}
+
+function getLowerWorkedHours(arrayHoursWorked) {
+  console.log(arrayHoursWorked[0].value);
+  for (let i = 0; i < arrayHoursWorked.length; i++) {
+    console.log(Number(arrayHoursWorked[i].value));
+    if (Number(arrayHoursWorked[i].value) < 100) {
+      arrayHoursWorked[i].previousElementSibling.style.backgroundColor = "red";
+      console.log("it worked");
+    } else {
+      console.log("It did not work");
+    }
+  }
 }
 
 function giveBonus(theHourWorked, theRate) {
@@ -41,4 +56,5 @@ calculate.addEventListener("click", () => {
   for (let i = 0; i < payements.length; i++) {
     payements[i].innerText = calculatePayout()[i];
   }
+  getLowerWorkedHours(workedHours);
 });
