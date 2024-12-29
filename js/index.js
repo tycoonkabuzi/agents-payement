@@ -10,6 +10,7 @@ const workedHours = document.querySelectorAll(".czas");
 const rate = document.querySelectorAll(".stawka");
 const calculate = document.getElementById("oblicz");
 const payements = document.querySelectorAll(".wyplata");
+const bestEmployees = document.getElementById("najlepsi-pracownicy");
 
 function getValuesOfInputs(theInputs) {
   let anInputNumberArray = [];
@@ -20,14 +21,9 @@ function getValuesOfInputs(theInputs) {
 }
 
 function getLowerWorkedHours(arrayHoursWorked) {
-  console.log(arrayHoursWorked[0].value);
   for (let i = 0; i < arrayHoursWorked.length; i++) {
-    console.log(Number(arrayHoursWorked[i].value));
     if (Number(arrayHoursWorked[i].value) < 100) {
       arrayHoursWorked[i].previousElementSibling.style.backgroundColor = "red";
-      console.log("it worked");
-    } else {
-      console.log("It did not work");
     }
   }
 }
@@ -52,9 +48,32 @@ function calculatePayout() {
   }
   return result;
 }
+
+function topThreePerformers(allPerformers) {
+  bestEmployees.innerHTML = "";
+  let nodeArray = Array.from(allPerformers);
+  let thebest = [];
+  let sortedPerformers = getValuesOfInputs(allPerformers).sort((a, b) => b - a);
+
+  for (let i = 0; i < sortedPerformers.length; i++) {
+    let index = nodeArray.findIndex(
+      (element) => element.defaultValue === `${sortedPerformers[i]}`
+    );
+    thebest.push(allPerformers[index].previousElementSibling.innerText);
+  }
+  for (i = 0; i < 3; i++) {
+    let unOrderedList = document.createElement("ul");
+    let item = document.createElement("li");
+    item.innerText = thebest[i];
+    unOrderedList.appendChild(item);
+    bestEmployees.appendChild(unOrderedList);
+  }
+}
+
 calculate.addEventListener("click", () => {
   for (let i = 0; i < payements.length; i++) {
     payements[i].innerText = calculatePayout()[i];
   }
   getLowerWorkedHours(workedHours);
+  topThreePerformers(workedHours);
 });
