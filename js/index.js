@@ -24,6 +24,8 @@ function getLowerWorkedHours(arrayHoursWorked) {
   for (let i = 0; i < arrayHoursWorked.length; i++) {
     if (Number(arrayHoursWorked[i].value) < 100) {
       arrayHoursWorked[i].previousElementSibling.style.backgroundColor = "red";
+    } else {
+      arrayHoursWorked[i].previousElementSibling.style.backgroundColor = "";
     }
   }
 }
@@ -54,7 +56,7 @@ function topThreePerformers(allPerformers) {
   let nodeArray = Array.from(allPerformers);
   let thebest = [];
   let sortedPerformers = getValuesOfInputs(allPerformers).sort((a, b) => b - a);
-
+  console.log(sortedPerformers);
   for (let i = 0; i < sortedPerformers.length; i++) {
     let index = nodeArray.findIndex(
       (element) => element.defaultValue === `${sortedPerformers[i]}`
