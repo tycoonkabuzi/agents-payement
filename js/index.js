@@ -9,7 +9,7 @@
 const workedHours = document.querySelectorAll(".czas");
 const rate = document.querySelectorAll(".stawka");
 const calculate = document.getElementById("oblicz");
-const payements = document.querySelectorAll(".wyplata");
+const payments = document.querySelectorAll(".wyplata");
 const bestEmployees = document.getElementById("najlepsi-pracownicy");
 
 function getValuesOfInputs(theInputs) {
@@ -31,10 +31,9 @@ function getLowerWorkedHours(arrayHoursWorked) {
 }
 
 function giveBonus(theHourWorked, theRate) {
-  let bonus;
   if (theHourWorked > 160) {
-    let base = 160 * theRate;
-    bonus = theRate * 2 * (theHourWorked - 160);
+    const base = 160 * theRate;
+    const bonus = theRate * 2 * (theHourWorked - 160);
     return base + bonus;
   } else {
     return theHourWorked * theRate;
@@ -44,7 +43,7 @@ function giveBonus(theHourWorked, theRate) {
 function calculatePayout() {
   const AllHoursWorked = getValuesOfInputs(workedHours);
   const AllRates = getValuesOfInputs(rate);
-  let result = [];
+  const result = [];
   for (let i = 0; i < AllHoursWorked.length; i++) {
     result.push(giveBonus(AllHoursWorked[i], AllRates[i]));
   }
@@ -53,28 +52,30 @@ function calculatePayout() {
 
 function topThreePerformers(allPerformers) {
   bestEmployees.innerHTML = "";
-  let nodeArray = Array.from(allPerformers);
-  let thebest = [];
-  let sortedPerformers = getValuesOfInputs(allPerformers).sort((a, b) => b - a);
+  const nodeArray = Array.from(allPerformers);
+  const theBest = [];
+  const sortedPerformers = getValuesOfInputs(allPerformers).sort(
+    (a, b) => b - a
+  );
   console.log(sortedPerformers);
   for (let i = 0; i < sortedPerformers.length; i++) {
     let index = nodeArray.findIndex(
-      (element) => element.defaultValue === `${sortedPerformers[i]}`
+      (element) => element.value === `${sortedPerformers[i]}`
     );
-    thebest.push(allPerformers[index].previousElementSibling.innerText);
+    theBest.push(allPerformers[index].previousElementSibling.innerText);
   }
-  for (i = 0; i < 3; i++) {
-    let unOrderedList = document.createElement("ul");
-    let item = document.createElement("li");
-    item.innerText = thebest[i];
+  for (let i = 0; i < 3; i++) {
+    const unOrderedList = document.createElement("ul");
+    const item = document.createElement("li");
+    item.innerText = theBest[i];
     unOrderedList.appendChild(item);
     bestEmployees.appendChild(unOrderedList);
   }
 }
 
 calculate.addEventListener("click", () => {
-  for (let i = 0; i < payements.length; i++) {
-    payements[i].innerText = calculatePayout()[i];
+  for (let i = 0; i < payments.length; i++) {
+    payments[i].innerText = calculatePayout()[i];
   }
   getLowerWorkedHours(workedHours);
   topThreePerformers(workedHours);
